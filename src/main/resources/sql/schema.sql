@@ -28,7 +28,7 @@ DROP TABLE IF EXISTS `inventory`;
 CREATE TABLE `inventory`
 (
     `id`            BIGINT        NOT NULL AUTO_INCREMENT COMMENT '인벤토리 ID',
-    `member_id`     BIGINT      NOT NULL COMMENT '회원 ID',
+    `member_id`     BIGINT        NOT NULL COMMENT '회원 ID',
     `item_id`       BIGINT        NOT NULL COMMENT '아이템 ID',
     `created_at`    DATETIME(6)   NOT NULL COMMENT '생성 날짜',
     `modified_at`   DATETIME(6)   NOT NULL COMMENT '수정 날짜',
@@ -69,8 +69,8 @@ CREATE TABLE `item_sale_info`
     `item_id`        BIGINT        NOT NULL COMMENT '아이템 ID',
     `member_name`    VARCHAR(20)   NOT NULL COMMENT '회원 닉네임',
     `item_name`      VARCHAR(20)   NOT NULL COMMENT '아이템 이름',
-    `price`          INT           NOT NULL COMMENT '아이템 가격',
-    `type`           VARCHAR(20)   NOT NULL  COMMENT '아이템 타입',
+    `item_price`     INT           NOT NULL COMMENT '아이템 가격',
+    `item_type`      VARCHAR(20)   NOT NULL  COMMENT '아이템 타입',
     `description`    VARCHAR(255)  COMMENT '아이템 설명',
     `quantity`       INT           NOT NULL COMMENT '재고 수량',
     `status`         VARCHAR(20)   NOT NULL COMMENT '판매 상태',
