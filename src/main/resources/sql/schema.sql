@@ -99,8 +99,8 @@ CREATE TABLE `item_transaction`
 DROP TABLE IF EXISTS `item_search_keyword`;
 CREATE TABLE `item_search_keyword`
 (
-    `id`             BIGINT        NOT NULL AUTO_INCREMENT COMMENT '아이템 검색 ID',
-    `item_keyword`   VARCHAR(20)   NOT NULL COMMENT '아이템 이름',
-    `item_count`     BIGINT        NOT NULL COMMENT '아이템 검색 횟수',
+    `id`                  BIGINT        NOT NULL AUTO_INCREMENT COMMENT '아이템 검색 ID',
+    `item_keyword`        VARCHAR(20)   NOT NULL COMMENT '아이템 이름',
+    `item_search_count`   BIGINT        NOT NULL COMMENT '아이템 검색 횟수',
     PRIMARY KEY (`id`)
 );
