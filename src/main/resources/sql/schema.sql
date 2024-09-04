@@ -1,13 +1,13 @@
 
 DROP TABLE IF EXISTS `member`;
-CREATE TABLE `member`
+CREATE TABLE `trading`.`member`
 (
     `id`           BIGINT        NOT NULL AUTO_INCREMENT COMMENT '회원 시퀀스',
     `name`         VARCHAR(20)   NOT NULL COMMENT '회원 닉네임',
     `phone`        VARCHAR(15)   NOT NULL COMMENT '회원 핸드폰 번호',
     `point`        BIGINT        NOT NULL DEFAULT 0 COMMENT '회원 포인트',
-    `created_at`     DATETIME(6)   NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '생성 날짜',
-    `modified_at`    DATETIME(6)   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수정 날짜',
+    `created_at`   TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '생성 날짜',
+    `modified_at`  TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수정 날짜',
     PRIMARY KEY (`id`),
     UNIQUE KEY (`phone`, `name`)
 );
@@ -19,9 +19,9 @@ CREATE TABLE `point_transaction`
     `member_id`          BIGINT        NOT NULL COMMENT '회원 ID',
     `point`              BIGINT        NOT NULL COMMENT '충전/사용 포인트',
     `transaction_type`   VARCHAR(20)   COMMENT '포인트 이력 구분',
-    `transacted_at`      DATETIME(6)   NOT NULL COMMENT '포인트 이력 일시',
+    `transacted_at`      TIMESTAMP     NOT NULL COMMENT '포인트 이력 일시',
     PRIMARY KEY (`id`),
-    KEY `idx_member_id` (`member_id`)
+    INDEX `idx_member_id` (`member_id`)
 );
 
 DROP TABLE IF EXISTS `inventory`;
@@ -30,8 +30,8 @@ CREATE TABLE `inventory`
     `id`            BIGINT        NOT NULL AUTO_INCREMENT COMMENT '인벤토리 ID',
     `member_id`     BIGINT        NOT NULL COMMENT '회원 ID',
     `item_id`       BIGINT        NOT NULL COMMENT '아이템 ID',
-    `created_at`     DATETIME(6)   NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '생성 날짜',
-    `modified_at`    DATETIME(6)   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수정 날짜',
+    `created_at`    TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '생성 날짜',
+    `modified_at`   TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수정 날짜',
     PRIMARY KEY (`id`)
 );
 
@@ -43,8 +43,8 @@ CREATE TABLE `item`
     `type`          VARCHAR(20)    NOT NULL  COMMENT '아이템 타입',
     `price`         INT            NOT NULL COMMENT '아이템 가격',
     `description`   VARCHAR(255)   COMMENT '아이템 설명',
-    `created_at`     DATETIME(6)   NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '생성 날짜',
-    `modified_at`    DATETIME(6)   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수정 날짜',
+    `created_at`    TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '생성 날짜',
+    `modified_at`   TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수정 날짜',
     PRIMARY KEY (`id`)
 );
 
@@ -55,8 +55,8 @@ CREATE TABLE `stock`
     `inventory_id`   BIGINT        NOT NULL COMMENT '인벤토리 ID',
     `item_id`        BIGINT        NOT NULL COMMENT '아이템 ID',
     `quantity`       INT           NOT NULL COMMENT '재고 수량',
-    `created_at`     DATETIME(6)   NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '생성 날짜',
-    `modified_at`    DATETIME(6)   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수정 날짜',
+    `created_at`     TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '생성 날짜',
+    `modified_at`    TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수정 날짜',
     PRIMARY KEY (`id`)
 );
 
@@ -74,8 +74,8 @@ CREATE TABLE `item_sale_info`
     `description`    VARCHAR(255)  COMMENT '아이템 설명',
     `quantity`       INT           NOT NULL COMMENT '재고 수량',
     `status`         VARCHAR(20)   NOT NULL COMMENT '판매 상태',
-    `created_at`     DATETIME(6)   NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '생성 날짜',
-    `modified_at`    DATETIME(6)   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수정 날짜',
+    `created_at`     TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '생성 날짜',
+    `modified_at`    TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수정 날짜',
     PRIMARY KEY (`id`)
 );
 
@@ -89,11 +89,11 @@ CREATE TABLE `item_transaction`
     `total_price`    INT           NOT NULL COMMENT '총 구매 가격',
     `total_quantity` INT           NOT NULL COMMENT '총 구매 수량',
     `status`         VARCHAR(20)   NOT NULL COMMENT '거래 상태',
-    `ordered_at`     DATETIME(6)   NOT NULL COMMENT '주문 날짜',
-    `created_at`     DATETIME(6)   NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '생성 날짜',
-    `modified_at`    DATETIME(6)   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수정 날짜',
+    `ordered_at`     TIMESTAMP     NOT NULL COMMENT '주문 날짜',
+    `created_at`     TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '생성 날짜',
+    `modified_at`    TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수정 날짜',
     PRIMARY KEY (`id`),
-    KEY `idx_ordered_at` (`ordered_at`)
+    INDEX `idx_ordered_at` (`ordered_at`)
 );
 
 DROP TABLE IF EXISTS `item_search_keyword`;
