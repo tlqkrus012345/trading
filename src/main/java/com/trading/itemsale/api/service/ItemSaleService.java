@@ -21,4 +21,12 @@ public class ItemSaleService {
                 .map(ItemSaleResponse::from)
                 .toList();
     }
+
+    public List<ItemSaleResponse> getItemsForSale() {
+        List<ItemSaleInfo> itemSaleInfos = itemSaleRepository.findAllByStatusIn(ItemSaleInfoStatus.forSale());
+
+        return itemSaleInfos.stream()
+                .map(ItemSaleResponse::from)
+                .toList();
+    }
 }

@@ -18,4 +18,8 @@ public enum ItemSaleInfoStatus {
     public static List<ItemSaleInfoStatus> forDisplay() {
         return List.of(SELLING, SOLD_OUT);
     }
+
+    public static List<ItemSaleInfoStatus> forSale() {
+        return List.of(SELLING);
+    }
 }
