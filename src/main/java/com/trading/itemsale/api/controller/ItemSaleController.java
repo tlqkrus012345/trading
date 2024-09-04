@@ -4,7 +4,6 @@ import com.trading.itemsale.api.service.ItemSaleResponse;
 import com.trading.itemsale.api.service.ItemSaleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -17,6 +16,6 @@ public class ItemSaleController {
 
     @GetMapping("api/v1/itemSale")
     public List<ItemSaleResponse> getItems() {
-        return itemSaleService.getItemSales();
+        return itemSaleService.getItemsForDisplay();
     }
 }

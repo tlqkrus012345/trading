@@ -14,7 +14,7 @@ public class ItemSaleService {
 
     private final ItemSaleRepository itemSaleRepository;
 
-    public List<ItemSaleResponse> getItemSales() {
+    public List<ItemSaleResponse> getItemsForDisplay() {
         List<ItemSaleInfo> itemSaleInfos = itemSaleRepository.findAllByStatusIn(ItemSaleInfoStatus.forDisplay());
 
         return itemSaleInfos.stream()
