@@ -22,7 +22,7 @@ class ItemRepositoryTest {
     @Autowired
     private ItemRepository itemRepository;
 
-    @DisplayName("아이템 이름을 통해 조회한다.")
+    @DisplayName("특정 키워드를 통해 아이템들을 조회한다.")
     @Test
     void findByNameContaining() {
         Item item1 = Item.builder()
