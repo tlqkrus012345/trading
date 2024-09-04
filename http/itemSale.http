@@ -1,2 +1,5 @@
 ### 판매중, 판매완료 아이템 리스트 조회
-GET localhost:8080/api/v1/itemSale
+GET localhost:8080/api/v1/item-sale/display
+
+### 판매중 아이템 리스트 조회
+GET localhost:8080/api/v1/item-sale/sale
