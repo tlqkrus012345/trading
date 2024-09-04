@@ -14,8 +14,13 @@ public class ItemSaleController {
 
     private final ItemSaleService itemSaleService;
 
-    @GetMapping("api/v1/itemSale")
-    public List<ItemSaleResponse> getItems() {
+    @GetMapping("api/v1/item-sale/display")
+    public List<ItemSaleResponse> getItemsForDisplay() {
         return itemSaleService.getItemsForDisplay();
+    }
+
+    @GetMapping("api/v1/item-sale/sale")
+    public List<ItemSaleResponse> getItemsForSale() {
+        return itemSaleService.getItemsForSale();
     }
 }
