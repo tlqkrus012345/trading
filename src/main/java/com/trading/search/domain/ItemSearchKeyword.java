@@ -1,9 +1,6 @@
 package com.trading.search.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,6 +18,9 @@ public class ItemSearchKeyword {
     private String itemKeyword;
 
     private Long itemSearchCount;
+
+    @Version
+    private long version;
 
     @Builder
     private ItemSearchKeyword(String itemKeyword, Long itemSearchCount) {
