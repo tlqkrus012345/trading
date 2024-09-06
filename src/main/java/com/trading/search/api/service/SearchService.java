@@ -19,12 +19,16 @@ public class SearchService {
 
     @Transactional
     public List<ItemSearchResponse> searchItemKeyword(String keyword) {
-        List<Item> items = itemRepository.findByNameContaining(keyword);
-
         ItemSearchKeyword itemSearchKeyword = itemSearchKeywordRepository.findByItemKeyword(keyword)
                 .orElse(ItemSearchKeyword.create(keyword));
         itemSearchKeyword.increaseItemSearchCnt();
         itemSearchKeywordRepository.save(itemSearchKeyword);
+
+        return getItemSearchResponses(keyword);
+    }
+
+    private List<ItemSearchResponse> getItemSearchResponses(String keyword) {
+        List<Item> items = itemRepository.findByNameContaining(keyword);
 
         return items.stream()
                 .map(ItemSearchResponse::from)
