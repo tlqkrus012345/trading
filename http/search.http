@@ -1,0 +1,5 @@
+### 키워드 검색
+GET localhost:8080/api/v1/search/sword
+
+### 인기 키워드 검색
+GET localhost:8080/api/v1/search/popular

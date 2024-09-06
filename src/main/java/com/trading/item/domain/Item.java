@@ -3,6 +3,7 @@ package com.trading.item.domain;
 import com.trading.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -23,4 +24,12 @@ public class Item extends BaseEntity {
     private int price;
 
     private String description;
+
+    @Builder
+    private Item(String name, ItemType type, int price, String description) {
+        this.name = name;
+        this.type = type;
+        this.price = price;
+        this.description = description;
+    }
 }

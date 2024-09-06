@@ -1,10 +1,8 @@
 package com.trading.search.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -19,5 +17,25 @@ public class ItemSearchKeyword {
 
     private String itemKeyword;
 
-    private Long itemCount;
+    private Long itemSearchCount;
+
+    @Version
+    private long version;
+
+    @Builder
+    private ItemSearchKeyword(String itemKeyword, Long itemSearchCount) {
+        this.itemKeyword = itemKeyword;
+        this.itemSearchCount = itemSearchCount;
+    }
+
+    public static ItemSearchKeyword create(String keyword) {
+        return ItemSearchKeyword.builder()
+                .itemKeyword(keyword)
+                .itemSearchCount(0L)
+                .build();
+    }
+
+    public void increaseItemSearchCnt() {
+        itemSearchCount += 1;
+    }
 }
