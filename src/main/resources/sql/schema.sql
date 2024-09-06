@@ -102,5 +102,6 @@ CREATE TABLE `item_search_keyword`
     `id`                  BIGINT        NOT NULL AUTO_INCREMENT COMMENT '아이템 검색 ID',
     `item_keyword`        VARCHAR(20)   NOT NULL COMMENT '아이템 이름',
     `item_search_count`   BIGINT        NOT NULL COMMENT '아이템 검색 횟수',
+    `version`             BIGINT        COMMENT '버전 관리',
     PRIMARY KEY (`id`)
 );
