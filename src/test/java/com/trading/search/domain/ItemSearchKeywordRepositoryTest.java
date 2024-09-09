@@ -1,6 +1,7 @@
 package com.trading.search.domain;
 
 import com.trading.search.api.service.SearchService;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,11 @@ class ItemSearchKeywordRepositoryTest {
 
     @Autowired
     private SearchService searchService;
+
+    @AfterEach
+    void tearDown() {
+        itemSearchKeywordRepository.deleteAllInBatch();
+    }
 
     @DisplayName("키워드를 통해 itemSearchKeyword 조회한다")
     @Test
