@@ -58,7 +58,7 @@ class ItemSearchKeywordRepositoryTest {
 
         assertThat(popularItemKeywords).hasSize(3)
                 .extracting("itemKeyword", "itemSearchCount")
-                .containsExactlyInAnyOrder(
+                .containsExactly(
                         tuple("레어", searchCount1),
                         tuple("일반", searchCount2),
                         tuple("에픽", searchCount3)
@@ -81,7 +81,7 @@ class ItemSearchKeywordRepositoryTest {
 
         assertThat(popularItemKeywords).hasSize(3)
                 .extracting("itemKeyword", "itemSearchCount")
-                .containsExactlyInAnyOrder(
+                .containsExactly(
                         tuple("가나", searchCount1),
                         tuple("나다", searchCount2),
                         tuple("다가", searchCount3)
