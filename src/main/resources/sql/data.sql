@@ -17,3 +17,10 @@ values ('가 창', 3, 1),
        ('다 도끼', 4, 1),
        ('마 검', 2, 1),
        ('바 도끼', 1, 1);
+
+insert into item_transaction(member_id, inventory_id, item_id, total_price, total_quantity, status, ordered_at)
+values (1, 1, 1, 1000, 200, 'COMPLETED', '2024-09-8T15:43:02.842110400'),
+       (1, 1, 1, 1000, 200, 'COMPLETED', '2024-09-8T15:43:02.842110400'),
+       (1, 1, 2, 1000, 350, 'COMPLETED', '2024-09-8T15:43:02.842110400'),
+       (1, 1, 3, 1000, 100, 'COMPLETED', '2024-09-8T15:43:02.842110400'),
+       (1, 1, 4, 1000, 100, 'COMPLETED', '2024-09-8T15:43:02.842110400');
