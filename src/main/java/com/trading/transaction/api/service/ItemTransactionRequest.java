@@ -2,8 +2,10 @@ package com.trading.transaction.api.service;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class ItemTransactionRequest {
 
     private Long itemId;

@@ -11,20 +11,23 @@ public class ItemTransactionResponse {
 
     private Long itemTransactionId;
     private LocalDateTime orderedAt;
-    private int totalPrice;
+    private int totalPriceWithCharge;
+    private Long afterMemberPoint;
 
     @Builder
-    private ItemTransactionResponse(Long itemTransactionId, LocalDateTime orderedAt, int totalPrice) {
+    private ItemTransactionResponse(Long itemTransactionId, LocalDateTime orderedAt, int totalPriceWithCharge, Long afterMemberPoint) {
         this.itemTransactionId = itemTransactionId;
         this.orderedAt = orderedAt;
-        this.totalPrice = totalPrice;
+        this.totalPriceWithCharge = totalPriceWithCharge;
+        this.afterMemberPoint = afterMemberPoint;
     }
 
-    public static ItemTransactionResponse from(ItemTransaction itemTransaction) {
+    public static ItemTransactionResponse of(ItemTransaction itemTransaction, Long afterMemberPoint) {
         return ItemTransactionResponse.builder()
                 .itemTransactionId(itemTransaction.getId())
                 .orderedAt(itemTransaction.getOrderedAt())
-                .totalPrice(itemTransaction.getTotalPrice())
+                .totalPriceWithCharge(itemTransaction.getTotalPriceWithCharge())
+                .afterMemberPoint(afterMemberPoint)
                 .build();
     }
 }
