@@ -39,11 +39,11 @@ CREATE TABLE `inventory`
 DROP TABLE IF EXISTS `item`;
 CREATE TABLE `item`
 (
-    `id`            BIGINT         NOT NULL AUTO_INCREMENT COMMENT '아이템 ID',
-    `name`          VARCHAR(20)    NOT NULL COMMENT '아이템 이름',
-    `type`          VARCHAR(20)    NOT NULL  COMMENT '아이템 타입',
-    `price`         INT            NOT NULL COMMENT '아이템 가격',
-    `description`   VARCHAR(255)   COMMENT '아이템 설명',
+    `id`            BIGINT        NOT NULL AUTO_INCREMENT COMMENT '아이템 ID',
+    `name`          VARCHAR(20)   NOT NULL COMMENT '아이템 이름',
+    `type`          VARCHAR(20)   NOT NULL  COMMENT '아이템 타입',
+    `price`         INT           NOT NULL COMMENT '아이템 가격',
+    `description`   VARCHAR(255)  COMMENT '아이템 설명',
     `created_at`    TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '생성 날짜',
     `modified_at`   TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수정 날짜',
     PRIMARY KEY (`id`)
