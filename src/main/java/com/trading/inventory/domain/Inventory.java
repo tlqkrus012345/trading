@@ -21,4 +21,6 @@ public class Inventory extends BaseEntity {
     private Long memberId;
 
     private Long itemId;
+
+    private Long stockId;
 }
