@@ -30,6 +30,7 @@ CREATE TABLE `inventory`
     `id`            BIGINT        NOT NULL AUTO_INCREMENT COMMENT '인벤토리 ID',
     `member_id`     BIGINT        NOT NULL COMMENT '회원 ID',
     `item_id`       BIGINT        NOT NULL COMMENT '아이템 ID',
+    `stock_id`      BIGINT        NOT NULL COMMENT '재고 ID',
     `created_at`    TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '생성 날짜',
     `modified_at`   TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수정 날짜',
     PRIMARY KEY (`id`)
