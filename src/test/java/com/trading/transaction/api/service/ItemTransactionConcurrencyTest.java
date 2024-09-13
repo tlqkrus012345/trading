@@ -7,6 +7,8 @@ import com.trading.itemsale.domain.ItemSaleInfoStatus;
 import com.trading.itemsale.domain.ItemSaleRepository;
 import com.trading.member.domain.Member;
 import com.trading.member.domain.MemberRepository;
+import com.trading.transaction.domain.ItemTransactionRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +34,15 @@ class ItemTransactionConcurrencyTest {
     private ItemSaleRepository itemSaleRepository;
 
     @Autowired
+    private ItemTransactionRepository itemTransactionRepository;
+
+    @Autowired
     private MemberRepository memberRepository;
 
-    int beforeQuantity = 1000;
+    @AfterEach
+    void tearDown() {
+        itemTransactionRepository.deleteAll();
+    }
 
     @BeforeEach
     void setUp() {
@@ -53,7 +61,7 @@ class ItemTransactionConcurrencyTest {
                 .memberName("유저")
                 .description("아 이 템")
                 .inventoryId(1L)
-                .quantity(beforeQuantity)
+                .quantity(1000)
                 .build();
         itemSaleRepository.save(beforeItemSaleInfo);
     }
@@ -61,25 +69,33 @@ class ItemTransactionConcurrencyTest {
     @Test
     void createItemTransaction() throws InterruptedException {
         LocalDateTime now = LocalDateTime.now();
-        int buyQuantity = 10;
         ItemTransactionRequest request = ItemTransactionRequest.builder()
                 .itemId(1L)
                 .inventoryId(1L)
                 .memberId(1L)
                 .itemSaleId(1L)
-                .quantity(buyQuantity)
+                .quantity(1)
                 .itemPrice(100)
                 .build();
 
-        CompletableFuture.allOf(
-                CompletableFuture.runAsync(() -> itemTransactionService.createItemTransaction(request, now)),
-                CompletableFuture.runAsync(() -> itemTransactionService.createItemTransaction(request, now))
-        ).join();
+        int count = 10;
+        ExecutorService executorService = Executors.newFixedThreadPool(count);
+        CountDownLatch latch = new CountDownLatch(count);
 
-        ItemSaleInfo afterItemSaleInfo = itemSaleRepository.findById(1L).orElseThrow();
-        int afterQuantity = afterItemSaleInfo.getQuantity();
+        for (int i=0; i<count; i++) {
+            executorService.submit(() -> {
+                try {
+                    itemTransactionService.createItemTransaction(request, now);
+                } finally {
+                    latch.countDown();
+                }
+            });
+        }
+        latch.await();
 
-        assertThat(afterQuantity).isEqualTo(beforeQuantity - (buyQuantity * 2));
+        Member member = memberRepository.findById(request.getMemberId()).get();
+        Long memberPoint = member.getPoint();
+        assertThat(memberPoint).isEqualTo(10000L - 1000);
     }
 
     private Member createMember(Long point) {

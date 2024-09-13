@@ -1,5 +1,6 @@
 package com.trading.transaction.api.service;
 
+import com.trading.common.aop.DistributedLock;
 import com.trading.itemsale.api.service.ItemSaleService;
 import com.trading.member.api.service.MemberService;
 import com.trading.transaction.domain.ItemTransaction;
@@ -18,6 +19,7 @@ public class ItemTransactionService {
     private final MemberService memberService;
     private final ItemSaleService itemSaleService;
 
+    @DistributedLock(key = "#request.getMemberId()")
     @Transactional
     public ItemTransactionResponse createItemTransaction(ItemTransactionRequest request, LocalDateTime now) {
         ItemTransaction itemTransaction = ItemTransaction.create(request, now);
