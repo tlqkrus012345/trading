@@ -24,6 +24,8 @@ public class ItemTransaction extends BaseEntity {
 
     private Long itemId;
 
+    private Long itemSaleId;
+
     private int totalPrice;
 
     private int totalPriceWithCharge;
@@ -39,6 +41,7 @@ public class ItemTransaction extends BaseEntity {
         this.memberId = request.getMemberId();
         this.inventoryId = request.getInventoryId();
         this.itemId = request.getItemId();
+        this.itemSaleId = request.getItemSaleId();
         this.status = ItemTransactionStatus.COMPLETED;
         this.orderedAt = now;
         this.totalQuantity = request.getQuantity();

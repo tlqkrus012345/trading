@@ -87,6 +87,7 @@ CREATE TABLE `item_transaction`
     `member_id`                 BIGINT        NOT NULL COMMENT '회원 ID',
     `inventory_id`              BIGINT        NOT NULL COMMENT '인벤토리 ID',
     `item_id`                   BIGINT        NOT NULL COMMENT '아이템 ID',
+    `item_sale_id`              BIGINT        NOT NULL COMMENT '판매 등록 아이템 ID',
     `total_price`               INT           NOT NULL COMMENT '총 구매 가격',
     `total_price_with_charge`   INT           NOT NULL COMMENT '수수료 추가된 총 구매 가격',
     `total_quantity`            INT           NOT NULL COMMENT '총 구매 수량',
