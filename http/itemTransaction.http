@@ -9,6 +9,7 @@ Content-Type: application/json
   "itemId" : 1,
   "memberId" : 1,
   "inventoryId" : 1,
+  "itemSaleId": 1,
   "quantity" : 100,
   "itemPrice" : 1000
 }
