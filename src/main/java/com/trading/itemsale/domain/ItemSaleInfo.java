@@ -52,4 +52,11 @@ public class ItemSaleInfo extends BaseEntity {
         this.quantity = quantity;
         this.status = status;
     }
+
+    public void reduceQuantity(int quantity) {
+        if (this.quantity < quantity) {
+            throw new IllegalArgumentException("판매 수량 부족");
+        }
+        this.quantity -= quantity;
+    }
 }
