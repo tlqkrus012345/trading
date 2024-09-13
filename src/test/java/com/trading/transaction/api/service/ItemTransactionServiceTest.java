@@ -1,8 +1,11 @@
 package com.trading.transaction.api.service;
 
+import com.trading.item.domain.ItemType;
+import com.trading.itemsale.domain.ItemSaleInfo;
+import com.trading.itemsale.domain.ItemSaleInfoStatus;
+import com.trading.itemsale.domain.ItemSaleRepository;
 import com.trading.member.domain.Member;
 import com.trading.member.domain.MemberRepository;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,6 +28,11 @@ class ItemTransactionServiceTest {
     @Autowired
     private MemberRepository memberRepository;
 
+    @Autowired
+    private ItemSaleRepository itemSaleRepository;
+
+    int beforeQuantity = 1000;
+
     @BeforeEach
     void setUp() {
         Long beforePoint1 = 10000L;
@@ -32,6 +40,19 @@ class ItemTransactionServiceTest {
 
         Long beforePoint2 = 10001L;
         memberRepository.save(createMember(beforePoint2));
+
+        ItemSaleInfo beforeItemSaleInfo = ItemSaleInfo.builder()
+                .itemName("아이템")
+                .itemType(ItemType.SWORD)
+                .itemId(1L)
+                .status(ItemSaleInfoStatus.SELLING)
+                .itemPrice(100)
+                .memberName("유저")
+                .description("아 이 템")
+                .inventoryId(1L)
+                .quantity(beforeQuantity)
+                .build();
+        itemSaleRepository.save(beforeItemSaleInfo);
     }
 
     @DisplayName("아이템 거래 명세를 받아 거래를 생성한다.")
@@ -42,6 +63,7 @@ class ItemTransactionServiceTest {
                 .itemId(1L)
                 .inventoryId(1L)
                 .memberId(1L)
+                .itemSaleId(1L)
                 .quantity(10)
                 .itemPrice(100)
                 .build();
@@ -62,6 +84,7 @@ class ItemTransactionServiceTest {
                 .itemId(1L)
                 .inventoryId(1L)
                 .memberId(2L)
+                .itemSaleId(1L)
                 .quantity(1)
                 .itemPrice(10001)
                 .build();
@@ -69,6 +92,27 @@ class ItemTransactionServiceTest {
         assertThatThrownBy(() -> itemTransactionService.createItemTransaction(request, now))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("포인트 부족");
+    }
+
+    @DisplayName("아이템 거래 명세를 받아 거래가 성공적으로 생성이 되면 판매 등록된 아이탬 개수가 차감된다.")
+    @Test
+    void createItemTransaction3() {
+        int buyQuantity = 10;
+        LocalDateTime now = LocalDateTime.now();
+        ItemTransactionRequest request = ItemTransactionRequest.builder()
+                .itemId(1L)
+                .inventoryId(1L)
+                .memberId(1L)
+                .itemSaleId(1L)
+                .quantity(buyQuantity)
+                .itemPrice(100)
+                .build();
+
+        itemTransactionService.createItemTransaction(request, now);
+        ItemSaleInfo itemSaleInfo = itemSaleRepository.findById(1L).orElseThrow();
+        int afterQuantity = itemSaleInfo.getQuantity();
+
+        assertThat(afterQuantity).isEqualTo(beforeQuantity - buyQuantity);
     }
 
     private Member createMember(Long point) {
