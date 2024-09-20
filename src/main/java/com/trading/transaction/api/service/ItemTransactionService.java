@@ -19,7 +19,7 @@ public class ItemTransactionService {
     private final MemberService memberService;
     private final ItemSaleService itemSaleService;
 
-    @DistributedLock(key = "#request.getMemberId()")
+    @DistributedLock(key = "'createItemTransaction'.concat(':').concat(#request.getMemberId())")
     @Transactional
     public ItemTransactionResponse createItemTransaction(ItemTransactionRequest request, LocalDateTime now) {
         ItemTransaction itemTransaction = ItemTransaction.create(request, now);
