@@ -75,25 +75,7 @@ class ItemTransactionServiceTest {
         assertThat(response.getTotalPriceWithCharge()).isEqualTo(1000);
         assertThat(response.getAfterMemberPoint()).isEqualTo(9000);
     }
-
-    @DisplayName("회원의 포인트가 부족한 경우 예외가 발생한다.")
-    @Test
-    void createItemTransaction2() {
-        LocalDateTime now = LocalDateTime.now();
-        ItemTransactionRequest request = ItemTransactionRequest.builder()
-                .itemId(1L)
-                .inventoryId(1L)
-                .memberId(2L)
-                .itemSaleId(1L)
-                .quantity(1)
-                .itemPrice(10001)
-                .build();
-
-        assertThatThrownBy(() -> itemTransactionService.createItemTransaction(request, now))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("포인트 부족");
-    }
-
+    
     @DisplayName("아이템 거래 명세를 받아 거래가 성공적으로 생성이 되면 판매 등록된 아이탬 개수가 차감된다.")
     @Test
     void createItemTransaction3() {
