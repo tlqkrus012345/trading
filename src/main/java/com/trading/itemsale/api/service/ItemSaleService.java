@@ -5,9 +5,11 @@ import com.trading.itemsale.domain.ItemSaleInfoStatus;
 import com.trading.itemsale.domain.ItemSaleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Service
 public class ItemSaleService {
@@ -28,5 +30,13 @@ public class ItemSaleService {
         return itemSaleInfos.stream()
                 .map(ItemSaleResponse::from)
                 .toList();
+    }
+
+    @Transactional
+    public void reduceQuantity(Long itemSaleId, int totalQuantity) {
+        ItemSaleInfo itemSaleInfo = itemSaleRepository.findById(itemSaleId)
+                .orElseThrow(() -> new IllegalArgumentException("잘못된 판매 등록 id: " + itemSaleId));
+
+        itemSaleInfo.reduceQuantity(totalQuantity);
     }
 }

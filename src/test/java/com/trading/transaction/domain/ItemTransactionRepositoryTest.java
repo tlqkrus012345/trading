@@ -3,6 +3,7 @@ package com.trading.transaction.domain;
 import com.trading.item.domain.Item;
 import com.trading.item.domain.ItemRepository;
 import com.trading.item.domain.ItemType;
+import com.trading.transaction.api.service.ItemTransactionRequest;
 import com.trading.transaction.api.service.PopularItemResponse;
 import com.trading.transaction.api.service.PopularItemService;
 import org.junit.jupiter.api.AfterEach;
@@ -121,16 +122,15 @@ class ItemTransactionRepositoryTest {
                 );
     }
 
-    private ItemTransaction createItemTransaction(Long itemId1, LocalDateTime now, int quantity) {
-        return ItemTransaction.builder()
-                .itemId(itemId1)
+    private ItemTransaction createItemTransaction(Long itemId, LocalDateTime now, int quantity) {
+        ItemTransactionRequest request = ItemTransactionRequest.builder()
                 .memberId(1L)
-                .status(ItemTransactionStatus.COMPLETED)
-                .totalPrice(1000)
-                .totalQuantity(quantity)
+                .itemId(itemId)
+                .itemPrice(100)
+                .quantity(quantity)
                 .inventoryId(1L)
-                .orderedAt(now)
                 .build();
+        return ItemTransaction.create(request, now);
     }
 
     private Item createItem(String itemName1) {

@@ -79,7 +79,7 @@ class SearchServiceTest {
                 .hasAtLeastOneElementOfType(ObjectOptimisticLockingFailureException.class);
     }
 
-    @DisplayName("특정 키워드가 동시에 2번 검색이 되면 카운트가 2 증가한다.")
+    @DisplayName("특정 키워드가 동시에 10번 검색이 되면 카운트가 10 증가한다.")
     @Test
     void searchItemKeyword3() throws InterruptedException {
         String itemKeyword = "강철";
