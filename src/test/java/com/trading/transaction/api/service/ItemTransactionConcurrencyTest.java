@@ -7,16 +7,15 @@ import com.trading.itemsale.domain.ItemSaleInfoStatus;
 import com.trading.itemsale.domain.ItemSaleRepository;
 import com.trading.member.domain.Member;
 import com.trading.member.domain.MemberRepository;
-import com.trading.transaction.domain.ItemTransactionRepository;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDateTime;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -24,6 +23,7 @@ import java.util.concurrent.Executors;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ActiveProfiles("test")
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @SpringBootTest
 class ItemTransactionConcurrencyTest {
 
@@ -34,15 +34,7 @@ class ItemTransactionConcurrencyTest {
     private ItemSaleRepository itemSaleRepository;
 
     @Autowired
-    private ItemTransactionRepository itemTransactionRepository;
-
-    @Autowired
     private MemberRepository memberRepository;
-
-    @AfterEach
-    void tearDown() {
-        itemTransactionRepository.deleteAll();
-    }
 
     @BeforeEach
     void setUp() {
@@ -66,6 +58,7 @@ class ItemTransactionConcurrencyTest {
         itemSaleRepository.save(beforeItemSaleInfo);
     }
 
+    @DisplayName("한 유저가 아이템을 동시에 구매해도 한 건만 처리된다.")
     @Test
     void createItemTransaction() throws InterruptedException {
         LocalDateTime now = LocalDateTime.now();
