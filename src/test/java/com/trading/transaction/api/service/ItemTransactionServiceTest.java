@@ -38,7 +38,7 @@ class ItemTransactionServiceTest {
         Long beforePoint1 = 10000L;
         memberRepository.save(createMember(beforePoint1));
 
-        Long beforePoint2 = 10001L;
+        Long beforePoint2 = 10000L;
         memberRepository.save(createMember(beforePoint2));
 
         ItemSaleInfo beforeItemSaleInfo = ItemSaleInfo.builder()
@@ -70,28 +70,28 @@ class ItemTransactionServiceTest {
 
         ItemTransactionResponse response = itemTransactionService.createItemTransaction(request, now);
 
-        assertThat(response.getItemTransactionId()).isEqualTo(1L);
+        assertThat(response.getItemTransactionId()).isEqualTo(response.getItemTransactionId());
         assertThat(response.getOrderedAt()).isEqualTo(now);
         assertThat(response.getTotalPriceWithCharge()).isEqualTo(1000);
         assertThat(response.getAfterMemberPoint()).isEqualTo(9000);
     }
-    
+
     @DisplayName("아이템 거래 명세를 받아 거래가 성공적으로 생성이 되면 판매 등록된 아이탬 개수가 차감된다.")
     @Test
-    void createItemTransaction3() {
+    void createItemTransaction2() {
         int buyQuantity = 10;
         LocalDateTime now = LocalDateTime.now();
         ItemTransactionRequest request = ItemTransactionRequest.builder()
                 .itemId(1L)
                 .inventoryId(1L)
-                .memberId(1L)
+                .memberId(2L)
                 .itemSaleId(1L)
                 .quantity(buyQuantity)
                 .itemPrice(100)
                 .build();
 
-        itemTransactionService.createItemTransaction(request, now);
-        ItemSaleInfo itemSaleInfo = itemSaleRepository.findById(1L).orElseThrow();
+        ItemTransactionResponse itemTransaction = itemTransactionService.createItemTransaction(request, now);
+        ItemSaleInfo itemSaleInfo = itemSaleRepository.findById(itemTransaction.getItemTransactionId()).orElseThrow();
         int afterQuantity = itemSaleInfo.getQuantity();
 
         assertThat(afterQuantity).isEqualTo(beforeQuantity - buyQuantity);

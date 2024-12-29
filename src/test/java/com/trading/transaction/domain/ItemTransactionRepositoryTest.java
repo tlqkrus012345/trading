@@ -5,38 +5,29 @@ import com.trading.item.domain.ItemRepository;
 import com.trading.item.domain.ItemType;
 import com.trading.transaction.api.service.ItemTransactionRequest;
 import com.trading.transaction.api.service.PopularItemResponse;
-import com.trading.transaction.api.service.PopularItemService;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
-import static org.junit.jupiter.api.Assertions.*;
 
 @ActiveProfiles("test")
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @SpringBootTest
-class ItemTransactionRepositoryTest {
+class ItemTransactionRepositoryTest  {
 
     @Autowired
     private ItemRepository itemRepository;
 
     @Autowired
     private ItemTransactionRepository itemTransactionRepository;
-
-    @AfterEach
-    void tearDown() {
-        itemTransactionRepository.deleteAllInBatch();
-    }
 
     @DisplayName("가장 많이 판매된 아이템 3개를 조회한다.")
     @Test
@@ -55,20 +46,21 @@ class ItemTransactionRepositoryTest {
 
         Long itemId1 = 1L;
         int itemQuantity1 = 100;
-        Long itemId2 = 2L;
-        int itemQuantity2 = 80;
-        Long itemId3 = 3L;
-        int itemQuantity3 = 30;
-        Long itemId4 = 4L;
-        int itemQuantity4 = 10;
         ItemTransaction itemTransaction1 = createItemTransaction(itemId1, now, itemQuantity1);
 
+        Long itemId2 = 2L;
+        int itemQuantity2 = 80;
         ItemTransaction itemTransaction2 = createItemTransaction(itemId2, now, itemQuantity2);
         ItemTransaction itemTransaction3 = createItemTransaction(itemId2, now, itemQuantity2);
 
+        Long itemId3 = 3L;
+        int itemQuantity3 = 30;
         ItemTransaction itemTransaction4 = createItemTransaction(itemId3, now, itemQuantity3);
 
+        Long itemId4 = 4L;
+        int itemQuantity4 = 10;
         ItemTransaction itemTransaction5 = createItemTransaction(itemId4, now, itemQuantity4);
+
         itemTransactionRepository.saveAll(List.of(itemTransaction1, itemTransaction2, itemTransaction3, itemTransaction4, itemTransaction5));
 
         List<PopularItemResponse> popularItems = itemTransactionRepository.findPopularItems();
@@ -99,16 +91,20 @@ class ItemTransactionRepositoryTest {
 
         Long itemId1 = 1L;
         int itemQuantity1 = 100;
+        ItemTransaction itemTransaction1 = createItemTransaction(itemId1, now, itemQuantity1);
+
         Long itemId2 = 2L;
         int itemQuantity2 = 100;
+        ItemTransaction itemTransaction2 = createItemTransaction(itemId2, now, itemQuantity2);
+
         Long itemId3 = 3L;
         int itemQuantity3 = 100;
+        ItemTransaction itemTransaction4 = createItemTransaction(itemId3, now, itemQuantity3);
+
         Long itemId4 = 4L;
         int itemQuantity4 = 100;
-        ItemTransaction itemTransaction1 = createItemTransaction(itemId1, now, itemQuantity1);
-        ItemTransaction itemTransaction2 = createItemTransaction(itemId2, now, itemQuantity2);
-        ItemTransaction itemTransaction4 = createItemTransaction(itemId3, now, itemQuantity3);
         ItemTransaction itemTransaction5 = createItemTransaction(itemId4, now, itemQuantity4);
+
         itemTransactionRepository.saveAll(List.of(itemTransaction1, itemTransaction2, itemTransaction4, itemTransaction5));
 
         List<PopularItemResponse> popularItems = itemTransactionRepository.findPopularItems();
