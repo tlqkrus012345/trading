@@ -1,10 +1,11 @@
 package com.trading.item.domain;
 
+import com.trading.common.DatabaseCleanUp;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
@@ -14,12 +15,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
 @ActiveProfiles("test")
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+//@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @SpringBootTest
 class ItemRepositoryTest {
 
     @Autowired
+    private DatabaseCleanUp databaseCleanUp;
+
+    @Autowired
     private ItemRepository itemRepository;
+
+    @AfterEach
+    void tearDown() {
+        databaseCleanUp.truncateTable();
+    }
 
     @DisplayName("특정 키워드를 통해 아이템들을 조회한다.")
     @Test

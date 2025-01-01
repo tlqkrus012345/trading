@@ -1,10 +1,12 @@
 package com.trading.transaction.domain;
 
+import com.trading.common.DatabaseCleanUp;
 import com.trading.item.domain.Item;
 import com.trading.item.domain.ItemRepository;
 import com.trading.item.domain.ItemType;
 import com.trading.transaction.api.service.ItemTransactionRequest;
 import com.trading.transaction.api.service.PopularItemResponse;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,15 +21,22 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
 @ActiveProfiles("test")
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @SpringBootTest
 class ItemTransactionRepositoryTest  {
+
+    @Autowired
+    private DatabaseCleanUp databaseCleanUp;
 
     @Autowired
     private ItemRepository itemRepository;
 
     @Autowired
     private ItemTransactionRepository itemTransactionRepository;
+
+    @AfterEach
+    void tearDown() {
+        databaseCleanUp.truncateTable();
+    }
 
     @DisplayName("가장 많이 판매된 아이템 3개를 조회한다.")
     @Test
