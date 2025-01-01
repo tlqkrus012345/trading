@@ -1,5 +1,7 @@
 package com.trading.itemsale.domain;
 
+import com.trading.common.DatabaseCleanUp;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +17,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.groups.Tuple.tuple;
 
 @ActiveProfiles("test")
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @SpringBootTest
 class ItemSaleRepositoryTest {
 
     @Autowired
+    private DatabaseCleanUp databaseCleanUp;
+
+    @Autowired
     private ItemSaleRepository itemSaleRepository;
+
+    @AfterEach
+    void tearDown() {
+        databaseCleanUp.truncateTable();
+    }
 
     @DisplayName("판매중, 판매완료 상태를 가진 아이템들을 조회한다")
     @Test

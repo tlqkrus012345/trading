@@ -1,12 +1,14 @@
 package com.trading.transaction.api.service;
 
 
+import com.trading.common.DatabaseCleanUp;
 import com.trading.item.domain.ItemType;
 import com.trading.itemsale.domain.ItemSaleInfo;
 import com.trading.itemsale.domain.ItemSaleInfoStatus;
 import com.trading.itemsale.domain.ItemSaleRepository;
 import com.trading.member.domain.Member;
 import com.trading.member.domain.MemberRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,9 +25,11 @@ import java.util.concurrent.Executors;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ActiveProfiles("test")
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @SpringBootTest
 class ItemTransactionConcurrencyTest {
+
+    @Autowired
+    private DatabaseCleanUp databaseCleanUp;
 
     @Autowired
     private ItemTransactionService itemTransactionService;
@@ -35,6 +39,11 @@ class ItemTransactionConcurrencyTest {
 
     @Autowired
     private MemberRepository memberRepository;
+
+    @AfterEach
+    void tearDown() {
+        databaseCleanUp.truncateTable();
+    }
 
     @BeforeEach
     void setUp() {
