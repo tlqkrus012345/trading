@@ -1,0 +1,126 @@
+{
+  "family": "trading-dev",
+  "containerDefinitions": [
+    {
+      "name": "app",
+      "image": "",
+      "cpu": 0,
+      "portMappings": [
+        {
+          "name": "app-8080-tcp",
+          "containerPort": 8080,
+          "hostPort": 8080,
+          "protocol": "tcp",
+          "appProtocol": "http"
+        }
+      ],
+      "essential": true,
+      "environment": [
+        {
+          "name": "PROFILE",
+          "value": "dev"
+        },
+        {
+          "name": "TZ",
+          "value": "Asia/Seoul"
+        }
+      ],
+      "environmentFiles": [
+        {
+          "value": "arn:aws:s3:::tlqkrus-trading-dev/trading-dev.env",
+          "type": "s3"
+        }
+      ],
+      "mountPoints": [],
+      "volumesFrom": [],
+      "ulimits": [],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-create-group": "true",
+          "awslogs-group": "trading-dev",
+          "awslogs-region": "ap-northeast-2",
+          "awslogs-stream-prefix": "ecs"
+        },
+        "secretOptions": []
+      }
+    },
+    {
+      "name": "redis",
+      "image": "public.ecr.aws/docker/library/redis:latest",
+      "cpu": 0,
+      "portMappings": [],
+      "essential": true,
+      "environment": [],
+      "environmentFiles": [],
+      "mountPoints": [],
+      "volumesFrom": []
+    },
+    {
+      "name": "zookeeper",
+      "image": "confluentinc/cp-zookeeper:7.4.0",
+      "cpu": 256,
+      "memoryReservation": 256,
+      "portMappings": [
+        {
+          "containerPort": 2181,
+          "hostPort": 2181,
+          "protocol": "tcp"
+        }
+      ],
+      "essential": true
+    },
+    {
+      "name": "kafka",
+      "image": "confluentinc/cp-kafka:7.4.0",
+      "cpu": 512,
+      "memoryReservation": 512,
+      "portMappings": [
+        {
+          "containerPort": 9092,
+          "hostPort": 9092,
+          "protocol": "tcp"
+        }
+      ],
+      "essential": true,
+      "environment": [
+        {
+          "name": "KAFKA_BROKER_ID",
+          "value": "1"
+        },
+        {
+          "name": "KAFKA_ZOOKEEPER_CONNECT",
+          "value": "zookeeper:2181"
+        },
+        {
+          "name": "KAFKA_ADVERTISED_LISTENERS",
+          "value": "PLAINTEXT://kafka:9092"
+        },
+        {
+          "name": "KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR",
+          "value": "1"
+        }
+      ],
+      "dependsOn": [
+        {
+          "containerName": "zookeeper",
+          "condition": "START"
+        }
+      ]
+    }
+  ],
+  "taskRoleArn": "arn:aws:iam::476114158004:role/role-ecs-task",
+  "executionRoleArn": "arn:aws:iam::476114158004:role/role-ecs-task",
+  "networkMode": "awsvpc",
+  "placementConstraints": [],
+  "requiresCompatibilities": [
+    "FARGATE"
+  ],
+  "cpu": "512",
+  "memory": "1024",
+  "runtimePlatform": {
+    "cpuArchitecture": "X86_64",
+    "operatingSystemFamily": "LINUX"
+  },
+  "tags": []
+}

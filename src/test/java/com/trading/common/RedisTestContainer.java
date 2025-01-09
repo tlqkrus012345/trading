@@ -5,16 +5,19 @@ import org.springframework.test.context.ActiveProfiles;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.utility.DockerImageName;
 
-@Configuration
 @ActiveProfiles("test")
+@Configuration
 public class RedisTestContainer {
     private static final String REDIS_DOCKER_IMAGE = "redis";
+    private static final int REDIS_PORT = 6379;
 
     static {
-        GenericContainer<?> redis =
-                new GenericContainer<>(DockerImageName.parse(REDIS_DOCKER_IMAGE)).withExposedPorts(6379);
-        redis.start();
-        System.setProperty("spring.data.redis.host", redis.getHost());
-        System.setProperty("spring.data.redis.port", redis.getMappedPort(6379).toString());
+        GenericContainer<?> REDIS_CONTAINER = new GenericContainer<>(DockerImageName.parse(REDIS_DOCKER_IMAGE))
+                .withExposedPorts(REDIS_PORT);
+
+        REDIS_CONTAINER.start();
+
+        System.setProperty("spring.data.redis.host", REDIS_CONTAINER.getHost());
+        System.setProperty("spring.data.redis.port", REDIS_CONTAINER.getMappedPort(REDIS_PORT).toString());
     }
 }
