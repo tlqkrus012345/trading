@@ -3,9 +3,11 @@ package com.trading.transaction.api.service;
 import com.trading.common.aop.DistributedLock;
 import com.trading.itemsale.api.service.ItemSaleService;
 import com.trading.member.api.service.MemberService;
+import com.trading.transaction.api.event.ItemTransactionEvent;
 import com.trading.transaction.domain.ItemTransaction;
 import com.trading.transaction.domain.ItemTransactionRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +20,7 @@ public class ItemTransactionService {
     private final ItemTransactionRepository itemTransactionRepository;
     private final MemberService memberService;
     private final ItemSaleService itemSaleService;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
     @DistributedLock(key = "'createItemTransaction'.concat(':').concat(#request.getMemberId())")
     @Transactional
@@ -27,6 +30,9 @@ public class ItemTransactionService {
         itemSaleService.reduceQuantity(itemTransaction.getItemSaleId(), itemTransaction.getTotalQuantity());
         Long afterMemberPoint = memberService.payPoint(itemTransaction.getMemberId(), itemTransaction.getTotalPriceWithCharge());
 
-        return ItemTransactionResponse.of(itemTransactionRepository.save(itemTransaction), afterMemberPoint);
+        ItemTransactionResponse result = ItemTransactionResponse.of(itemTransactionRepository.save(itemTransaction), afterMemberPoint);
+        applicationEventPublisher.publishEvent(new ItemTransactionEvent(result));
+
+        return result;
     }
 }
