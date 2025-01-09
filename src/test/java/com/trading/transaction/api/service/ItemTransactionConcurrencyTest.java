@@ -2,6 +2,7 @@ package com.trading.transaction.api.service;
 
 
 import com.trading.common.DatabaseCleanUp;
+import com.trading.common.KafkaMessagePublisher;
 import com.trading.item.domain.ItemType;
 import com.trading.itemsale.domain.ItemSaleInfo;
 import com.trading.itemsale.domain.ItemSaleInfoStatus;
@@ -14,6 +15,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -39,6 +41,9 @@ class ItemTransactionConcurrencyTest {
 
     @Autowired
     private MemberRepository memberRepository;
+
+    @MockBean
+    private KafkaMessagePublisher kafkaMessagePublisher;
 
     @AfterEach
     void tearDown() {
