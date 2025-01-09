@@ -4,33 +4,36 @@ spring:
       on-profile: local
 
   jpa:
-    database: Mysql
-
+    defer-datasource-initialization: true
     hibernate:
-      ddl-auto: validate
+      ddl-auto: create
 
     show-sql: true
     properties:
       hibernate:
         format_sql: true
 
-  h2:
-    console:
-      enabled: true
-
   datasource:
-    url: jdbc:mysql://localhost:3306/trading
+    url: jdbc:mysql://localhost:3306/trading?createDatabaseIfNotExist=true
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: 1234
 
   sql:
     init:
-      schema-locations: classpath:sql/schema.sql
       data-locations: classpath:sql/data.sql
       mode: always
 
+  cache:
+    type: redis
+
   data:
     redis:
+      repositories:
+        enabled: false
       host: localhost
       port: 6379
+
+  kafka:
+    bootstrap-servers:
+      - 'localhost:9092'
