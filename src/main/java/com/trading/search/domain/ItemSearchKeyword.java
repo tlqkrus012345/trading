@@ -19,9 +19,6 @@ public class ItemSearchKeyword {
 
     private Long itemSearchCount;
 
-    @Version
-    private long version;
-
     @Builder
     private ItemSearchKeyword(String itemKeyword, Long itemSearchCount) {
         this.itemKeyword = itemKeyword;
