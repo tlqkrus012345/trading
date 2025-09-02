@@ -12,4 +12,8 @@ public interface ItemSearchKeywordRepository extends JpaRepository<ItemSearchKey
 
     @Query(value = "select * from item_search_keyword i order by i.item_search_count desc, i.item_keyword asc limit 3", nativeQuery = true)
     List<ItemSearchKeyword> findPopularItemKeyword();
+
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("SELECT s FROM ItemSearchKeyword s WHERE s.keyword = :keyword")
+    ItemSearchKeyword findByKeywordForUpdate(@Param("keyword") String keyword);
 }
