@@ -3,7 +3,7 @@ package com.trading.search.api.controller;
 import com.trading.search.api.service.ItemSearchResponse;
 import com.trading.search.api.service.PopularKeywordResponse;
 import com.trading.search.api.service.PopularKeywordService;
-import com.trading.search.api.service.SearchFacadeService;
+import com.trading.search.api.service.SearchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,7 +15,7 @@ import java.util.List;
 @RestController
 public class SearchController {
 
-    private final SearchFacadeService searchService;
+    private final SearchService searchService;
     private final PopularKeywordService popularKeywordService;
 
     @GetMapping("/api/v1/search/{keyword}")
