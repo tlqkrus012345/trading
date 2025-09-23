@@ -10,12 +10,12 @@
 ### 프로젝트 기술 스택
 #Java 17 #Spring Boot 3.3 #Spring Data JPA #MySQL 8.0 #Redis 5.0 #Kafka #Github Actions #Docker #AWS #Junit5
 
+### 프로젝트 이슈
+- [동시성 문제 해결하는 방법](https://tlqkrus012345.tistory.com/35)
+- [MySQL 쿼리 최적화 (인덱스, 파티션)를 통해 기존 성능 대비 85% 개선](https://tlqkrus012345.tistory.com/38)
+
 ### 프로젝트 아키텍처
 <img width="796" height="633" alt="Image" src="https://github.com/user-attachments/assets/23f29d07-d7c1-45f8-aacc-c9fae22d27ca" />
 
 ### 프로젝트 DB ERD
 <img width="905" height="684" alt="스크린샷 2025-08-31 오후 3 19 13" src="https://github.com/user-attachments/assets/65002241-50a9-4872-aa43-7696590ad2fb" />
-
-### 프로젝트 이슈
-- [동시성 문제 해결하는 방법](https://tlqkrus012345.tistory.com/35)
-- [MySQL 쿼리 최적화 (인덱스, 파티션)를 통해 기존 성능 대비 85% 개선](https://tlqkrus012345.tistory.com/38)
